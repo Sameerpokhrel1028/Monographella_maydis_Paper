@@ -1,37 +1,13 @@
-#!/bin/bash
-#SBATCH --job-name=ProteomeTree
-#SBATCH --partition=batch
-#SBATCH --nodes=1
-#SBATCH --ntasks=1
-#SBATCH --cpus-per-task=64
-#SBATCH --mem=120G
-#SBATCH --time=72:00:00
-#SBATCH --output=orthofinder_%j.out
-#SBATCH --error=orthofinder_%j.err
 
-set -euo pipefail
 
-##############################
-# Modules
-##############################
 module purge
-module load DIAMOND/2.1.15-GCC-13.3.0
-module load MAFFT/7.526-GCC-13.3.0-with-extensions
-module load FastTree/2.1.11-GCCcore-13.2.0
-module load OrthoFinder/3.1.0-foss-2023a
+module load DIAMOND
+module load MAFFT
+module load FastTree
+module load OrthoFinder
 
-##############################
-# Working directory
-##############################
-WORKDIR=/scratch/sp47126/Akshaya_Seq/Phyllogenetic_Tree/Protein_PhyllogeneticTree/Proteomics
-cd "$WORKDIR"
-
-echo "Running in: $WORKDIR"
-echo "CPU threads: $SLURM_CPUS_PER_TASK"
-
-##############################
 # Input proteomes 
-##############################
+
 PROTEOMES=(
   "M.maydis.protein.fasta"
   "M.nivale.protein.faa"
@@ -42,20 +18,8 @@ PROTEOMES=(
   "F.verticillioides.protein.faa"
 )
 
-# Sanity checking if inputs exist
-echo "Checking input files..."
-for f in "${PROTEOMES[@]}"; do
-  if [[ ! -s "$f" ]]; then
-    echo "ERROR: Missing/empty file: $WORKDIR/$f" >&2
-    exit 1
-  fi
-done
-echo "All input proteomes found."
-
-##############################
 # Clean + header-prefix proteomes
-# (prevents ID collisions across species)
-##############################
+
 CLEAN_DIR="proteomes_clean"
 rm -rf "$CLEAN_DIR"
 mkdir -p "$CLEAN_DIR"
@@ -101,18 +65,8 @@ echo "Proteomes cleaned. Files:"
 ls -lh "$CLEAN_DIR"
 
 
-##############################
+
 # Run OrthoFinder
-##############################
+
 echo "Starting OrthoFinder..."
 orthofinder -f "$CLEAN_DIR" -t "$SLURM_CPUS_PER_TASK"
-
-echo "OrthoFinder finished ✔"
-
-##############################
-# Report tree location(s)
-##############################
-echo "Species tree Newick files:"
-find "$CLEAN_DIR/OrthoFinder" -type f \( -name "SpeciesTree_rooted.txt" -o -name "SpeciesTree_unrooted.txt" -o -name "*SpeciesTree*.txt" \) -print
-
-echo "DONE ✔"
