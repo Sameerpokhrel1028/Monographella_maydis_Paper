@@ -1,14 +1,3 @@
-#!/bin/bash
-#SBATCH --job-name=AKB_Script_test # Job name
-#SBATCH --partition=batch # Partition (queue) name
-#SBATCH --ntasks=1 # Single task job
-#SBATCH --cpus-per-task=32 # Number of cores per task - match this to the num_threads used by BLAST
-#SBATCH --mem=50gb # Total memory for job
-#SBATCH --time=10:00:00 # Time limit hrs:min:sec
-#SBATCH --output=/scratch/sp47126/Akshaya_Seq/log.%j # Location of outputfile/error
-#SBATCH --mail-user=sp47126@uga.edu # Where to send mail
-#SBATCH --mail-type=END,FAIL # Mail events (BEGIN, END, FAIL, ALL)
-
 
 
 INDIR="/scratch/sp47126/Akshaya_Seq"
@@ -348,44 +337,6 @@ funannotate predict \
     --busco_db fungi
 
     
-# This is only based on gene mark data base did not use AUGUSTUS
-
-### Functional Annotation ##########
-
-ml BLAST+/2.14.1-gompi-2023a
-# Define input and output files
-input_fasta="Consensus_assembly_MNG.fasta"
-gff_file="Genemark.Geneprediction.MNG.evm.gff3"
-output_dir="/scratch/sp47126/Akshaya_Seq/Consensus_Assembly/GENE_PREDICTION/Functional_Annotation/interproscan_output"
-
-
-module load gffread/0.12.7-GCCcore-11.3.0
-
-# Extract protein sequences from GFF3 and FASTA
-gffread $gff_file -g $input_fasta -y $output_dir/predicted_proteins.fasta
-
-# Making a Blast+ database and running it.. 
-wget ftp://ftp.uniprot.org/pub/databases/uniprot/current_release/knowledgebase/complete/uniprot_sprot.fasta.gz
-gunzip uniprot_sprot.fasta.gz
-
-# Define paths
-database_dir="/scratch/sp47126/Akshaya_Seq/Consensus_Assembly/GENE_PREDICTION/Functional_Annotation/interproscan_output"
-uniprot_fasta="$database_dir/uniprot_sprot.fasta"
-input_fasta="$output_dir/predicted_proteins.fasta"
-output_file="$output_dir/blast_results.tsv"
-
-# Create BLAST database
-makeblastdb -in $uniprot_fasta -dbtype prot -out $database_dir/uniprot_sprot
-
-# Run BLAST
-blastp -query $input_fasta \
-       -db $database_dir/uniprot_sprot \
-       -out $output_file \
-       -outfmt "6 qseqid sseqid pident length mismatch gapopen evalue bitscore stitle" \
-       -evalue 1e-5 \
-       -num_threads 50
-
-
 
 
 
