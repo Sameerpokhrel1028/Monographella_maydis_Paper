@@ -1,11 +1,7 @@
 
-cd "$WORKDIR"
-
-
 module purge
-module load GCCcore/12.3.0
-module load Mash/2.3-GCC-12.3.0
-module load R-bundle-Bioconductor/3.18-foss-2023a-R-4.3.2
+module load Mash
+module load R
 
 
 STEP 1 — Mash sketch
