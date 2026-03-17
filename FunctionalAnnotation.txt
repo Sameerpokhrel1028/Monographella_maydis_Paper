@@ -1,0 +1,69 @@
+ Functional annotation analysis 
+
+markdown
+
+# Functional Annotation Analysis of Monographella maydis
+
+The assembled genome of *Monographella maydis*, a phytopathogenic fungus, was annotated using **Funannotate**, a suite of tools for local annotation of fungal genomes ([GitHub Repository](https://github.com/nextgenusfs/funannotate)).
+
+With the assembled *Monographella maydis* genome in .fasta format, the annotation process was performed.
+
+## Funannotate Installation
+
+**Funannotate** is installed on the *mitla* server (https://mitla.ccg.unam.mx). To connect via SSH, use: `ssh mitla.ccg.unam.mx` (ensure you are connected to the VPN). The server runs on Rocky Linux 9, with 11 computing nodes, totaling 672 cores and 3TB of RAM. Funannotate is an ideal and comprehensive suite for annotating fungal genomes locally.
+
+## Requirements
+1. Install Funannotate and its dependencies on Linux on the mitla server.
+2. Prepare files:
+   - Assembled genome: `monographella.fasta`
+
+## Basic Command to Start
+Run the following command to begin the annotation:
+
+```bash
+funannotate predict -i monographella.fasta -o annotation_output --species "Monographella maydis" --isolate your_strain_name
+
+This step runs gene prediction tools (such as Augustus, GlimmerHMM) and produces annotations in .gff, .gbk, and more. This platform facilitated the extraction of information to analyze biosynthetic gene clusters responsible for producing secondary metabolites in the strain. This analysis was performed using the antiSMASH server (Antibiotics and Secondary Metabolite Analysis Shell) version 4.1.0 (antiSMASH), as detailed by Medema et al. and Blin et al.
+
+
+Funannotate and the Genome Analysis of Monographella maydis ("Hidalgo_strain_name")
+
+    1. Preparation and Execution of the Prediction Pipeline (Funannotate Predict)
+        Assembled genomic file used: monographella.fasta
+        Key command executed:
+    bash
+
+    funannotate predict -i monographella.fasta -o annotation_output \
+    --species "Monographella maydis" \
+    --isolate "Hidalgo_strain_name" \
+    --cpus 8 --force
+
+        The process utilized tools like AUGUSTUS, GeneMark, SNAP, GlimmerHMM, etc. (although some were omitted due to lack of entries or configuration, such as GeneMark and CodingQuarry).
+
+    2. Functional Annotation (Funannotate Annotate)
+        Executed:
+    bash
+
+    funannotate annotate -i annotation_output --cpus 8
+
+        Added functional annotations using databases such as:
+            Pfam
+            MEROPS
+            CAZy
+            SignalP
+
+    3. Combining Annotations
+
+    These annotations were combined using Gene2Product.
+
+    4. Secondary Metabolite Analysis (antiSMASH)
+
+    The .gbk file was manually uploaded to fungismash.secondarymetabolites.org.
+    The execution of Funannotate annotate added functional annotations using the following databases:
+        Pfam-A
+        UniProt (Diamond)
+        MEROPS
+        CAZy (dbCAN)
+        BUSCO
+        SignalP (secretome)
+
