@@ -319,7 +319,7 @@ source activate ${EBROOTFUNANNOTATE}
 # Define input and output files
 input_fasta="Final_filtered_contigs.fasta"
 output_dir="funannotate_output1"
-species_name="Microdochium fisheri"
+species_name="Monographella maydis"
 
 # Mask the repeated genome assembly
 funannotate mask \
