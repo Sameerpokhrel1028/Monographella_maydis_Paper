@@ -1,4 +1,4 @@
-'
+```
 Genome Assembly
    ↓
 Contamination Screening & Removal
@@ -20,5 +20,7 @@ Funannotate Predict
 Evidence Integration (EVM)
    ↓
 Final Gene Models (GFF3, proteins, CDS)
-'
+
 AUGUSTUS training using BUSCO-derived gene models was not feasible due to insufficient validated models (187 < 200). Therefore, a pretrained gene model from Neurospora crassa, a well-established model filamentous fungus within the class Sordariomycetes, was used due to its phylogenetic proximity and high-quality curated gene structure parameters.
+
+```
