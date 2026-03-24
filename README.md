@@ -10,12 +10,12 @@ Repeat Masking (RepeatMasker v4.2.3)
 Masked Clean Genome
    ↓
 Funannotate Predict (v1.8.17)
+   ├── Protein alignment (DIAMOND → Exonerate)
    ├── GeneMark-ES (v4.72; self-training)
    ├── BUSCO (fungi lineage)
    ├── AUGUSTUS (Neurospora crassa pretrained model)
    ├── SNAP
    ├── GlimmerHMM
-   ├── Protein alignment (miniprot v0.13)
    ↓
 Evidence Integration (EVM)
    ↓
