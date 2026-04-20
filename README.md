@@ -33,6 +33,23 @@ Functional Annotation
    │    ├── Functional descriptions
    │    ├── COG classification
    │    └── KEGG pathway annotation
-
+   │
+   ├── CAZyme Annotation (dbCAN / run_dbcan)
+   │    ├── HMMER (CAZy HMM profiles)
+   │    ├── DIAMOND (CAZy sequence database)
+   │    ├── dbCAN_sub subfamily assignment
+   │    └── Integrated CAZyme prediction (overview table)
+   │
+   ├── Protease Annotation (MEROPS + DIAMOND v2.1.23)
+   │    ├── MEROPS peptidase database (release 12.5)
+   │    ├── Sequence similarity search (blastp mode)
+   │    └── High-confidence protease identification
+   │
+   ├── Secretome Prediction (SignalP)
+   │    ├── Signal peptide prediction
+   │    └── Secreted protein identification
+   │
+   └── Transmembrane Domain Prediction (DeepTMHMM)
+        └── Membrane protein annotation
 ```
 AUGUSTUS training using BUSCO-derived gene models was not feasible due to insufficient validated models (187 < 200 required). Therefore, a pretrained gene model from Neurospora crassa, a well-established model filamentous fungus within the class Sordariomycetes (same as Monographella), was used due to its phylogenetic proximity and high-quality, curated gene-structure parameters. The pre-trained set was available in the UGA cluster.
