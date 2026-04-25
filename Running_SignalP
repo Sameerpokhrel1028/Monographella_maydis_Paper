@@ -1,0 +1,27 @@
+set -euo pipefail
+
+module purge
+module load SignalP/6.0h-foss-2023a-fast
+
+BASE="/scratch/sp47126/Akshaya_Seq/Consensus_Assembly/GENE_PREDICTION/FINAL_RESULTS_Only/After_contamination_rem
+oval"
+PROT="${BASE}/funannotate_predict_output/predict_results/Monographella_maydis.proteins.fa"
+OUTDIR="${BASE}/functional_annotation/SignalP"
+
+mkdir -p "${OUTDIR}"
+cd "${OUTDIR}"
+
+echo "SignalP location:"
+which signalp6
+signalp6 --help | head -20 || true
+echo
+
+signalp6 \
+  --fastafile "${PROT}" \
+  --organism eukarya \
+  --output_dir "${OUTDIR}" \
+  --format txt
+
+echo
+echo "SignalP output:"
+ls -lh "${OUTDIR}"
